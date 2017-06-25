@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.template.loader import render_to_string
 from django.test import TestCase
 from django.core.urlresolvers import resolve
@@ -19,7 +19,7 @@ class HomePageTest(TestCase):
         self.assertEqual(found.func, home_page)
 
     def test_home_page_returns_correct_html(self):
-        request = HttpResponse()
+        request = HttpRequest()
         response = home_page(request)
         expected_html = render_to_string('home.html')
         self.assertEqual(response.content.decode(), expected_html)
