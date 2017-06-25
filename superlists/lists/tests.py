@@ -10,12 +10,6 @@ from lists.views import home_page
 
 
 # Create your tests here.
-
-# class SmokeTest(TestCase):
-#     def test_bad_maths(self):
-#         self.assertEqual(1+1,3)
-
-
 class HomePageTest(TestCase):
     pattern_input_csrf = re.compile(r'<input[^>]*csrfmiddlewaretoken[^>]*>')
 
@@ -46,27 +40,17 @@ class HomePageTest(TestCase):
     def test_home_page_redirects_after_POST(self):
         request = HttpRequest()
         request.method = 'POST'
-        request.POST['item_text']='A new list item'
+        request.POST['item_text'] = 'A new list item'
 
         response = home_page(request)
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'],'/')
-        #
-        # self.assertIn('A new list item', response.content.decode())
-        # expected_html = render_to_string(
-        #     'home.html',
-        #     {'new_item_text': 'A new list item'},
-        # )
-        # self.assertEqual(
-        #     re.sub(self.pattern_input_csrf, '', response.content.decode()),
-        #     re.sub(self.pattern_input_csrf, '', expected_html)
-        # )
+        self.assertEqual(response['location'], '/')
 
-    def test_home_pageonly_saves_items_when_necessary(self):
+    def test_home_pag_only_saves_items_when_necessary(self):
         request = HttpRequest()
         home_page(request)
-        self.assertEqual(Item.objects.count(),0)
+        self.assertEqual(Item.objects.count(), 0)
 
     def test_home_page_displays_all_list_items(self):
         Item.objects.create(text='itemey 1')
@@ -77,6 +61,7 @@ class HomePageTest(TestCase):
 
         self.assertIn('itemey 1', response.content.decode())
         self.assertIn('itemey 2', response.content.decode())
+
 
 class ItemModelTest(TestCase):
     def test_saving_and_retrieving_items(self):
