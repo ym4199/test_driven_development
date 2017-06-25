@@ -1,6 +1,8 @@
-from selenium import webdriver
 import unittest
+
+from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+
 
 # browser = webdriver.Chrome()
 # browser.get('http://localhost:8000')
@@ -38,17 +40,18 @@ class NewVisitorTest(unittest.TestCase):
 
         inputbox.send_keys('Buy peacock feathers')
 
-        inputbox.send(Keys.ENTER)
+        inputbox.send_keys(Keys.ENTER)
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.asserTrue(
-            any(row.text == '1:Buy peacock feathers' for row in rows)
+        self.assertTrue(
+            any(row.text == '1:Buy peacock feathers' for row in rows),
+            "New to-do item did not appear in table"
         )
 
         self.fail('Finish the test!')
         # [...rest of comments as before]
 
+
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
-
